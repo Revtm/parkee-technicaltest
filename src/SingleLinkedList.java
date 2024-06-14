@@ -19,6 +19,15 @@ public class SingleLinkedList {
         }
     }
 
+    public void insertAtBeginning(int data){
+        if(head == null){
+            head = new Node(data);
+        }else{
+            head = new Node(data, head);
+        }
+    }
+
+
     public void display(){
         if(head == null){
             System.out.println("[]");
