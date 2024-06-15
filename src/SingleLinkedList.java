@@ -25,7 +25,22 @@ public class SingleLinkedList {
     }
 
     public void deleteByValue(int data){
-        deleteByValue(data, null, head);
+        Node prev = null;
+        Node current = head;
+        while(current != null){
+            if(current.getData() != data){
+                prev = current;
+                current = current.getNext();
+            }else{
+                Node next = current.getNext();
+                if(prev != null){
+                    prev.setNext(next);
+                }else{
+                    head = next;
+                }
+                current = null;
+            }
+        }
     }
 
     public void deleteByValue(int data, Node prev, Node current){
@@ -49,9 +64,9 @@ public class SingleLinkedList {
             System.out.println("[]");
         }else{
             System.out.print("[");
-            for(Node n = head ; n != null ; n = n.getNext()){
-                System.out.print(n.getData());
-                if(n.getNext() != null){
+            for(Node node = head ; node != null ; node = node.getNext()){
+                System.out.print(node.getData());
+                if(node.getNext() != null){
                     System.out.print(",");
                 }
             }
