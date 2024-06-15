@@ -5,17 +5,16 @@ public class SingleLinkedList {
         if(head == null){
             head = new Node(data);
         } else {
-            head = insertToLastNode(data, head);
+            insertToLastNode(data, head);
         }
     }
 
-    private Node insertToLastNode(int data, Node node){
+    private void insertToLastNode(int data, Node node){
         if(node.getNext() != null){
-            return insertToLastNode(data, node.getNext());
+            insertToLastNode(data, node.getNext());
         }else{
             Node newNode = new Node(data);
             node.setNext(newNode);
-            return node;
         }
     }
 
@@ -27,6 +26,25 @@ public class SingleLinkedList {
         }
     }
 
+    public void deleteByValue(int data){
+        deleteByValue(data, null, head);
+    }
+
+    public void deleteByValue(int data, Node prev, Node current){
+        if(current != null){
+            if(current.getData() != data){
+                deleteByValue(data, current, current.getNext());
+            }else{
+                Node next = current.getNext();
+                if(prev != null){
+                    prev.setNext(next);
+                    current.setNext(null);
+                }else{
+                    head = next;
+                }
+            }
+        }
+    }
 
     public void display(){
         if(head == null){
