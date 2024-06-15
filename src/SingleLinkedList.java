@@ -5,14 +5,10 @@ public class SingleLinkedList {
         if(head == null){
             head = new Node(data);
         } else {
-            insertToLastNode(data, head);
-        }
-    }
-
-    private void insertToLastNode(int data, Node node){
-        if(node.getNext() != null){
-            insertToLastNode(data, node.getNext());
-        }else{
+            Node node = head;
+            while(node.getNext() != null){
+                node = node.getNext();
+            }
             Node newNode = new Node(data);
             node.setNext(newNode);
         }
@@ -22,7 +18,9 @@ public class SingleLinkedList {
         if(head == null){
             head = new Node(data);
         }else{
-            head = new Node(data, head);
+            Node newNode = new Node(data);
+            newNode.setNext(head);
+            head = newNode;
         }
     }
 
@@ -51,20 +49,13 @@ public class SingleLinkedList {
             System.out.println("[]");
         }else{
             System.out.print("[");
-            display(head);
-            System.out.println("]");
-        }
-    }
-
-    private void display(Node node){
-        if(node == null){
-            System.out.print("");
-        }else{
-            System.out.print(node.getData());
-            if(node.getNext() != null){
-                System.out.print(",");
+            for(Node n = head ; n != null ; n = n.getNext()){
+                System.out.print(n.getData());
+                if(n.getNext() != null){
+                    System.out.print(",");
+                }
             }
-            display(node.getNext());
+            System.out.println("]");
         }
     }
 }
