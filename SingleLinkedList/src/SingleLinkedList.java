@@ -43,22 +43,6 @@ public class SingleLinkedList {
         }
     }
 
-    public void deleteByValue(int data, Node prev, Node current){
-        if(current != null){
-            if(current.getData() != data){
-                deleteByValue(data, current, current.getNext());
-            }else{
-                Node next = current.getNext();
-                if(prev != null){
-                    prev.setNext(next);
-                    current.setNext(null);
-                }else{
-                    head = next;
-                }
-            }
-        }
-    }
-
     public void display(){
         if(head == null){
             System.out.println("[]");
