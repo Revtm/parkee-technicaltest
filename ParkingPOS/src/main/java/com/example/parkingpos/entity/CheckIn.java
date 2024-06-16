@@ -16,6 +16,4 @@ public class CheckIn {
     private LocalDateTime checkInTime;
     private String processStatus;
     private String message;
-    private LocalDateTime insertTime;
-    private LocalDateTime updateTime;
 }

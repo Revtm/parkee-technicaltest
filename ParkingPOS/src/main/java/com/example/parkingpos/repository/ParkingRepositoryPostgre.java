@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Repository
 public class ParkingRepositoryPostgre implements ParkingRepository{
@@ -21,13 +22,14 @@ public class ParkingRepositoryPostgre implements ParkingRepository{
 
     @Override
     public Integer submitTicket(CheckIn checkIn) {
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
         return jdbcTemplate.update(
                 "INSERT INTO TICKET VALUES (?, ?, ?, ?, ?)",
                 checkIn.getPlateNumber(),
                 checkIn.getCheckInTime(),
                 "PARKING",
-                checkIn.getInsertTime(),
-                checkIn.getUpdateTime());
+                now,
+                now);
     }
 
     @Override
