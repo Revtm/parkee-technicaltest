@@ -1,7 +1,15 @@
 package com.example.parkingpos.dto;
 
-public class CheckOutResponseDto extends BasicResponseDto<CheckOutDataResponse>{
-    public CheckOutResponseDto(String status, CheckOutDataResponse data) {
-        super(status, data);
-    }
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CheckOutResponseDto{
+    private String status;
+    private CheckInDataResponseDto data;
 }

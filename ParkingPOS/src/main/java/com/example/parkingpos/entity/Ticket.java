@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CheckOut {
+public class Ticket {
     private String plateNumber;
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
     private BigInteger totalPrice;
+    private String status;
 }
