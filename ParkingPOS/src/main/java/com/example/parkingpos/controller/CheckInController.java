@@ -5,6 +5,7 @@ import com.example.parkingpos.dto.CheckInResponseDto;
 import com.example.parkingpos.dto.converter.CheckInConverter;
 import com.example.parkingpos.entity.CheckIn;
 import com.example.parkingpos.service.CheckInService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Slf4j
 @RequestMapping("/pos")
 public class CheckInController {
     private final CheckInService checkInService;
@@ -35,6 +37,7 @@ public class CheckInController {
 
             return new ResponseEntity<>(response, httpStatus);
         }catch (Exception e){
+            log.error(e.getMessage());
             CheckInResponseDto response = checkInConverter.requestToFailedCheckInResponseDto(request);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -2,14 +2,15 @@ package com.example.parkingpos.service;
 
 
 import com.example.parkingpos.entity.CheckIn;
-import com.example.parkingpos.entity.Ticket;
 import com.example.parkingpos.repository.ParkingRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
+@Slf4j
 public class CheckInServiceImpl implements CheckInService{
 
     private final ParkingRepository parkingRepository;
@@ -20,13 +21,13 @@ public class CheckInServiceImpl implements CheckInService{
     }
 
     @Override
-    public CheckIn processCheckIn(String plateNumber, LocalDateTime now) {
+    public CheckIn processCheckIn(String plateNumber, LocalDateTime checkInTime) {
         try {
-            Integer countParking = parkingRepository.countByPlateNumberAndCheckInTime(plateNumber, now);
+            Integer countParking = parkingRepository.countByPlateNumberAndCheckInTime(plateNumber, checkInTime);
 
             CheckIn checkIn = CheckIn.builder()
                     .plateNumber(plateNumber)
-                    .checkInTime(now)
+                    .checkInTime(checkInTime)
                     .build();
 
             if(countParking <= 0){
@@ -45,9 +46,10 @@ public class CheckInServiceImpl implements CheckInService{
 
             return checkIn;
         }catch (Exception e){
+            log.error(e.getMessage());
             CheckIn checkIn = CheckIn.builder()
                     .plateNumber(plateNumber)
-                    .checkInTime(now)
+                    .checkInTime(checkInTime)
                     .processStatus("FAILED")
                     .message("Terdapat kesalahan sistem")
                     .build();

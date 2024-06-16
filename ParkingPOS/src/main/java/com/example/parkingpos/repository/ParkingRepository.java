@@ -1,7 +1,6 @@
 package com.example.parkingpos.repository;
 
 import com.example.parkingpos.entity.CheckIn;
-import com.example.parkingpos.entity.Ticket;
 
 import java.time.LocalDateTime;
 

@@ -2,7 +2,6 @@ package com.example.parkingpos.repository;
 
 
 import com.example.parkingpos.entity.CheckIn;
-import com.example.parkingpos.entity.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
