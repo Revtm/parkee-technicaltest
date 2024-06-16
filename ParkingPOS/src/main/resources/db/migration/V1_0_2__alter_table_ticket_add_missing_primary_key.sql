@@ -1,0 +1,1 @@
+ALTER TABLE ticket ADD CONSTRAINT ticket_pk PRIMARY KEY (id);

@@ -2,7 +2,7 @@ package com.example.parkingpos.service;
 
 
 import com.example.parkingpos.entity.CheckIn;
-import com.example.parkingpos.repository.ParkingRepository;
+import com.example.parkingpos.repository.TicketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,17 +13,17 @@ import java.time.LocalDateTime;
 @Slf4j
 public class CheckInServiceImpl implements CheckInService{
 
-    private final ParkingRepository parkingRepository;
+    private final TicketRepository ticketRepository;
 
     @Autowired
-    public CheckInServiceImpl(ParkingRepository parkingRepository) {
-        this.parkingRepository = parkingRepository;
+    public CheckInServiceImpl(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
     }
 
     @Override
     public CheckIn processCheckIn(String plateNumber, LocalDateTime checkInTime) {
         try {
-            Integer countParking = parkingRepository.countByPlateNumberAndCheckInTime(plateNumber, checkInTime);
+            Integer countParking = ticketRepository.countByPlateNumber(plateNumber);
 
             CheckIn checkIn = CheckIn.builder()
                     .plateNumber(plateNumber)
@@ -31,7 +31,7 @@ public class CheckInServiceImpl implements CheckInService{
                     .build();
 
             if(countParking <= 0){
-                Integer row = parkingRepository.submitTicket(checkIn);
+                Integer row = ticketRepository.submitTicket(checkIn);
                 if(row > 0){
                     checkIn.setProcessStatus("SUCCESS");
                     checkIn.setMessage("Berhasil check-in");
