@@ -22,7 +22,7 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public JdbcTemplate factory(DataSource dataSource){
+    public JdbcTemplate getFactory(DataSource dataSource){
         return new JdbcTemplate(dataSource);
     }
 }

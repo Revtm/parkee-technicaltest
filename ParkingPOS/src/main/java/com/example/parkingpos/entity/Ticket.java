@@ -17,5 +17,8 @@ public class Ticket {
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
     private BigInteger totalPrice;
-    private String status;
+    private String parkingStatus;
+    private String processStatus;
+    private LocalDateTime insertTime;
+    private LocalDateTime updateTime;
 }

@@ -1,7 +1,9 @@
 package com.example.parkingpos.service;
 
-import com.example.parkingpos.entity.Ticket;
+import com.example.parkingpos.entity.CheckIn;
+
+import java.time.LocalDateTime;
 
 public interface CheckInService {
-    Ticket createCheckInTicket(String plateNumber);
+    CheckIn processCheckIn(String plateNumber, LocalDateTime now);
 }
