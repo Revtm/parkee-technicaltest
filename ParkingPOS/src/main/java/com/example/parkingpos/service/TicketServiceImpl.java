@@ -37,7 +37,7 @@ public class TicketServiceImpl implements TicketService{
 
             return ticket;
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error("Error", e);
             Ticket ticket = Ticket.builder()
                     .plateNumber(plateNumber)
                     .checkOutTime(now)

@@ -37,7 +37,7 @@ public class CheckInController {
 
             return new ResponseEntity<>(response, httpStatus);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error("Error", e);
             CheckInResponseDto response = checkInConverter.requestToFailedCheckInResponseDto(request);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }

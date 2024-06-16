@@ -44,7 +44,7 @@ public class TicketController {
             HttpStatus httpStatus = mappingHttpStatus(ticket.getProcessStatus());
             return new ResponseEntity<>(response, httpStatus);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error("Error", e);
             TicketResponseDto response = TicketResponseDto.builder()
                     .status("FAILED")
                     .data(TicketDataResponseDto.builder()

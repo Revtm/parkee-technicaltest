@@ -46,7 +46,7 @@ public class CheckInServiceImpl implements CheckInService{
 
             return checkIn;
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error("Error", e);
             CheckIn checkIn = CheckIn.builder()
                     .plateNumber(plateNumber)
                     .checkInTime(checkInTime)
