@@ -23,7 +23,7 @@ public class ParkingRepositoryPostgre implements ParkingRepository{
     public Integer submitTicket(CheckIn checkIn) {
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
         return jdbcTemplate.update(
-                "INSERT INTO TICKET VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO TICKET (plate_number, check_in_time, parking_status, insert_time, update_time) VALUES (?, ?, ?, ?, ?)",
                 checkIn.getPlateNumber(),
                 checkIn.getCheckInTime(),
                 "PARKING",
