@@ -1,4 +1,4 @@
-package com.example.parkingpos.entity;
+package com.example.parkingpos.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,10 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class CheckOut {
+@NoArgsConstructor
+@AllArgsConstructor
+public class CheckOutDataResponse {
     private String plateNumber;
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;
