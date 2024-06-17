@@ -40,7 +40,7 @@ export default function CheckOutPage() {
                     <form action={formAction}>
                         <div className="w-full flex flex-row gap-3">
                             <input type="text" name="plate_number" placeholder="Input Plat Nomor Kendaraan" className="form-input w-full px-4 py-3 rounded-md basis-5/6"/>
-                            <button type="submit" className="basis-1/6 p-2 w-full bg-red-600 text-white text-sm rounded-xl">{"Check Out"}</button>
+                            <button onClick={(e) => {state.status = ""; statePay.status = "";}} type="submit" className="basis-1/6 p-2 w-full bg-red-600 text-white text-sm rounded-xl">{"Check Out"}</button>
                         </div>
                     </form>
                 </div>
@@ -67,8 +67,8 @@ export default function CheckOutPage() {
                         </div>
                         <div>
                             <form action={formActionPay}>
-                                <input type="hidden" name="plate_number" value={state.status === "SUCCESS" ?state.data.plateNumber : ''}/>
-                                <button type="submit" className="absolute inset-x-0 bottom-0 p-2 w-full bg-red-600 text-white text-sm rounded-xl">Bayar</button>
+                                <input type="hidden" name="plate_number" value={state.data.plateNumber ? state.data.plateNumber : (statePay.data.plateNumber ? statePay.data.plateNumber :'')}/>
+                                <button onClick={(e) => {state.status = ""; statePay.status = "";}} type="submit" className="absolute inset-x-0 bottom-0 p-2 w-full bg-red-600 text-white text-sm rounded-xl">Bayar</button>
                             </form>
                         </div>
                     </div>
