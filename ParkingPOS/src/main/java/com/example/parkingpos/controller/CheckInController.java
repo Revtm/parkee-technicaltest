@@ -46,7 +46,7 @@ public class CheckInController {
                 throw new IllegalArgumentException(builder.toString());
             }
 
-            CheckIn checkIn = checkInService.processCheckIn(request.getPlateNumber());
+            CheckIn checkIn = checkInService.processCheckIn(request.getPlateNumber().replaceAll("\\s", "").toUpperCase());
 
             CheckInResponseDto response = checkInConverter.checkInToCheckInResponseDto(checkIn);
             HttpStatus httpStatus = controllerUtils.mappingHttpStatus(checkIn.getProcessStatus());

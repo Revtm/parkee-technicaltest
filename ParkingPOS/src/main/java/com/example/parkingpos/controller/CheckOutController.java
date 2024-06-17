@@ -45,7 +45,7 @@ public class CheckOutController {
                 throw new IllegalArgumentException(builder.toString());
             }
 
-            CheckOut checkOut = checkOutService.processCheckOut(request.getPlateNumber());
+            CheckOut checkOut = checkOutService.processCheckOut(request.getPlateNumber().replaceAll("\\s", "").toUpperCase());
             CheckOutResponseDto response = checkOutConverter.checkOutToCheckOutResponseDto(checkOut);
 
             HttpStatus httpStatus = controllerUtils.mappingHttpStatus(checkOut.getProcessStatus());

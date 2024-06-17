@@ -45,7 +45,7 @@ public class PaymentController {
                 throw new IllegalArgumentException(builder.toString());
             }
 
-            Payment payment = paymentService.processPayment(request.getPlateNumber());
+            Payment payment = paymentService.processPayment(request.getPlateNumber().replaceAll("\\s", "").toUpperCase());
             PaymentResponseDto response = paymentConverter.paymentToPaymentResponseDto(payment);
 
             HttpStatus httpStatus = controllerUtils.mappingHttpStatus(payment.getProcessStatus());
