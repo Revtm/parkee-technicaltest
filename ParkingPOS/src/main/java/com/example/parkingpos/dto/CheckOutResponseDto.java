@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CheckOutResponseDto{
     private String status;
-    private CheckInDataResponseDto data;
+    private CheckOutDataResponseDto data;
 }

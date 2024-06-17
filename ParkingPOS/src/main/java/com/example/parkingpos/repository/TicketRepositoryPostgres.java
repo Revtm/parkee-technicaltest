@@ -2,6 +2,7 @@ package com.example.parkingpos.repository;
 
 
 import com.example.parkingpos.entity.CheckIn;
+import com.example.parkingpos.entity.CheckOut;
 import com.example.parkingpos.entity.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -59,5 +60,17 @@ public class TicketRepositoryPostgres implements TicketRepository {
                             .build();
                     return ticket;
                 }, plateNumber);
+    }
+
+    @Override
+    public Integer updateTicketStatus(CheckOut checkOut) {
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
+        return jdbcTemplate.update(
+                "UPDATE TICKET SET parking_status = ? , check_out_time = ? , update_time = ? " +
+                    "WHERE plate_number = ? and parking_status = 'PARKING'",
+                checkOut.getParkingStatus(),
+                checkOut.getCheckOutTime(),
+                now,
+                checkOut.getPlateNumber());
     }
 }

@@ -1,5 +1,6 @@
 package com.example.parkingpos.controller;
 
+import com.example.parkingpos.controller.utils.ControllerUtils;
 import com.example.parkingpos.dto.TicketDataResponseDto;
 import com.example.parkingpos.dto.TicketRequestDto;
 import com.example.parkingpos.dto.TicketResponseDto;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/pos")
 public class TicketController {
     private final TicketService ticketService;
+    private final ControllerUtils controllerUtils;
 
     @Autowired
-    public TicketController(TicketService ticketService) {
+    public TicketController(TicketService ticketService, ControllerUtils controllerUtils) {
         this.ticketService = ticketService;
+        this.controllerUtils = controllerUtils;
     }
 
     @GetMapping("/ticket")
@@ -41,7 +44,7 @@ public class TicketController {
                             .build())
                     .build();
 
-            HttpStatus httpStatus = mappingHttpStatus(ticket.getProcessStatus());
+            HttpStatus httpStatus = controllerUtils.mappingHttpStatus(ticket.getProcessStatus());
             return new ResponseEntity<>(response, httpStatus);
         }catch (Exception e){
             log.error("Error", e);
@@ -55,15 +58,4 @@ public class TicketController {
         }
     }
 
-    private HttpStatus mappingHttpStatus(String status){
-        HttpStatus httpStatus;
-        if("CONFLICT".equals(status)){
-            httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-        }else if("SUCCESS".equals(status)){
-            httpStatus = HttpStatus.CREATED;
-        }else{
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return httpStatus;
-    }
 }

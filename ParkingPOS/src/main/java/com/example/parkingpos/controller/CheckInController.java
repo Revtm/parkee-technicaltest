@@ -1,5 +1,6 @@
 package com.example.parkingpos.controller;
 
+import com.example.parkingpos.controller.utils.ControllerUtils;
 import com.example.parkingpos.dto.CheckInRequestDto;
 import com.example.parkingpos.dto.CheckInResponseDto;
 import com.example.parkingpos.dto.converter.CheckInConverter;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class CheckInController {
     private final CheckInService checkInService;
     private final CheckInConverter checkInConverter;
+    private final ControllerUtils controllerUtils;
 
     @Autowired
-    public CheckInController(CheckInService checkInService, CheckInConverter checkInConverter) {
+    public CheckInController(CheckInService checkInService, CheckInConverter checkInConverter, ControllerUtils controllerUtils) {
         this.checkInService = checkInService;
         this.checkInConverter = checkInConverter;
+        this.controllerUtils = controllerUtils;
     }
 
     @PostMapping("/checkin")
@@ -33,7 +36,7 @@ public class CheckInController {
             CheckIn checkIn = checkInService.processCheckIn(request.getPlateNumber(), request.getCheckInTime());
 
             CheckInResponseDto response = checkInConverter.checkInToCheckInResponseDto(checkIn);
-            HttpStatus httpStatus = mappingHttpStatus(checkIn.getProcessStatus());
+            HttpStatus httpStatus = controllerUtils.mappingHttpStatus(checkIn.getProcessStatus());
 
             return new ResponseEntity<>(response, httpStatus);
         }catch (Exception e){
@@ -41,17 +44,5 @@ public class CheckInController {
             CheckInResponseDto response = checkInConverter.requestToFailedCheckInResponseDto(request);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private HttpStatus mappingHttpStatus(String status){
-        HttpStatus httpStatus;
-        if("CONFLICT".equals(status)){
-            httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-        }else if("SUCCESS".equals(status)){
-            httpStatus = HttpStatus.CREATED;
-        }else{
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return httpStatus;
     }
 }
