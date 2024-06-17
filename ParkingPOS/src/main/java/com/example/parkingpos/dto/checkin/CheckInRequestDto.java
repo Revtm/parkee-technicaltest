@@ -1,4 +1,4 @@
-package com.example.parkingpos.dto;
+package com.example.parkingpos.dto.checkin;
 
 import lombok.Data;
 

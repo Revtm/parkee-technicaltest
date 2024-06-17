@@ -1,4 +1,4 @@
-package com.example.parkingpos.dto;
+package com.example.parkingpos.dto.checkout;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

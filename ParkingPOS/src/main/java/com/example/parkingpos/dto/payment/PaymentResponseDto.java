@@ -1,4 +1,4 @@
-package com.example.parkingpos.dto;
+package com.example.parkingpos.dto.payment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentDataResponseDto {
-    private String plateNumber;
-    private String message;
+public class PaymentResponseDto {
+    private String status;
+    private PaymentDataResponseDto data;
 }

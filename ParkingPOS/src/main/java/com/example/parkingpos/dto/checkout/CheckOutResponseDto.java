@@ -1,4 +1,4 @@
-package com.example.parkingpos.dto;
+package com.example.parkingpos.dto.checkout;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

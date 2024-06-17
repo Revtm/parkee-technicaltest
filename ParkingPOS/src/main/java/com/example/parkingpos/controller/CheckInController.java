@@ -1,8 +1,8 @@
 package com.example.parkingpos.controller;
 
 import com.example.parkingpos.controller.utils.ControllerUtils;
-import com.example.parkingpos.dto.CheckInRequestDto;
-import com.example.parkingpos.dto.CheckInResponseDto;
+import com.example.parkingpos.dto.checkin.CheckInRequestDto;
+import com.example.parkingpos.dto.checkin.CheckInResponseDto;
 import com.example.parkingpos.dto.converter.CheckInConverter;
 import com.example.parkingpos.entity.CheckIn;
 import com.example.parkingpos.service.CheckInService;

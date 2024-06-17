@@ -1,8 +1,9 @@
 package com.example.parkingpos.controller;
 
 import com.example.parkingpos.controller.utils.ControllerUtils;
-import com.example.parkingpos.dto.*;
 import com.example.parkingpos.dto.converter.PaymentConverter;
+import com.example.parkingpos.dto.payment.PaymentRequestDto;
+import com.example.parkingpos.dto.payment.PaymentResponseDto;
 import com.example.parkingpos.entity.Payment;
 import com.example.parkingpos.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;

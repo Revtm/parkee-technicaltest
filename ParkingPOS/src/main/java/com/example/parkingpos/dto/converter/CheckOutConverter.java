@@ -1,6 +1,8 @@
 package com.example.parkingpos.dto.converter;
 
-import com.example.parkingpos.dto.*;
+import com.example.parkingpos.dto.checkout.CheckOutDataResponseDto;
+import com.example.parkingpos.dto.checkout.CheckOutRequestDto;
+import com.example.parkingpos.dto.checkout.CheckOutResponseDto;
 import com.example.parkingpos.entity.CheckOut;
 import org.springframework.stereotype.Component;
 
