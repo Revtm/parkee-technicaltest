@@ -5,18 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Payment {
     private String plateNumber;
-    private LocalDateTime checkInTime;
-    private LocalDateTime checkOutTime;
-    private BigInteger totalPrice;
     private String parkingStatus;
     private String processStatus;
     private String message;

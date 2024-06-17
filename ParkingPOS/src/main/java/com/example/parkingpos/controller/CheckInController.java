@@ -33,7 +33,7 @@ public class CheckInController {
     @PostMapping("/checkin")
     public ResponseEntity<CheckInResponseDto> submitCheckInTicket(@RequestBody CheckInRequestDto request){
         try{
-            CheckIn checkIn = checkInService.processCheckIn(request.getPlateNumber(), request.getCheckInTime());
+            CheckIn checkIn = checkInService.processCheckIn(request.getPlateNumber());
 
             CheckInResponseDto response = checkInConverter.checkInToCheckInResponseDto(checkIn);
             HttpStatus httpStatus = controllerUtils.mappingHttpStatus(checkIn.getProcessStatus());

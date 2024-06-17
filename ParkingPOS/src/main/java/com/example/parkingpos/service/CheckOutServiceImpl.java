@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 @Slf4j
@@ -22,8 +23,9 @@ public class CheckOutServiceImpl implements CheckOutService {
     }
 
     @Override
-    public CheckOut processCheckOut(String plateNumber, LocalDateTime checkOutTime) {
+    public CheckOut processCheckOut(String plateNumber) {
         try{
+            LocalDateTime checkOutTime = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
             Integer countParking = repository.countByPlateNumber(plateNumber);
             CheckOut checkOut = null;
 
@@ -60,7 +62,6 @@ public class CheckOutServiceImpl implements CheckOutService {
             log.error("Error", e);
             CheckOut checkOut = CheckOut.builder()
                     .plateNumber(plateNumber)
-                    .checkOutTime(checkOutTime)
                     .processStatus("FAILED")
                     .message("Gagal mendapatkan data ticket")
                     .build();

@@ -3,7 +3,7 @@ package com.example.parkingpos.controller;
 import com.example.parkingpos.controller.utils.ControllerUtils;
 import com.example.parkingpos.dto.CheckOutRequestDto;
 import com.example.parkingpos.dto.CheckOutResponseDto;
-import com.example.parkingpos.dto.converter.TicketConverter;
+import com.example.parkingpos.dto.converter.CheckOutConverter;
 import com.example.parkingpos.entity.CheckOut;
 import com.example.parkingpos.service.CheckOutService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,26 +21,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CheckOutController {
     private final CheckOutService checkOutService;
     private final ControllerUtils controllerUtils;
-    private final TicketConverter ticketConverter;
+    private final CheckOutConverter checkOutConverter;
 
     @Autowired
-    public CheckOutController(CheckOutService checkOutService, ControllerUtils controllerUtils, TicketConverter ticketConverter) {
+    public CheckOutController(CheckOutService checkOutService, ControllerUtils controllerUtils, CheckOutConverter checkOutConverter) {
         this.checkOutService = checkOutService;
         this.controllerUtils = controllerUtils;
-        this.ticketConverter = ticketConverter;
+        this.checkOutConverter = checkOutConverter;
     }
 
     @PostMapping("/checkout")
     public ResponseEntity<CheckOutResponseDto> submitCheckOutTicket(@RequestBody CheckOutRequestDto request){
         try {
-            CheckOut checkOut = checkOutService.processCheckOut(request.getPlateNumber(), request.getCheckOutTime());
-            CheckOutResponseDto response = ticketConverter.ticketToTicketResponseDto(checkOut);
+            CheckOut checkOut = checkOutService.processCheckOut(request.getPlateNumber());
+            CheckOutResponseDto response = checkOutConverter.checkOutToCheckOutResponseDto(checkOut);
 
             HttpStatus httpStatus = controllerUtils.mappingHttpStatus(checkOut.getProcessStatus());
             return new ResponseEntity<>(response, httpStatus);
         }catch (Exception e){
             log.error("Error", e);
-            CheckOutResponseDto response = ticketConverter.ticketToFailedTicketResponseDto(request);
+            CheckOutResponseDto response = checkOutConverter.checkOutToFailedCheckOutResponseDto(request);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

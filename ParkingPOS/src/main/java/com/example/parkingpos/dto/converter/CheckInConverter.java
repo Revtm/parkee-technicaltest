@@ -24,7 +24,6 @@ public class CheckInConverter {
                 .status("FAILED")
                 .data(CheckInDataResponseDto.builder()
                         .plateNumber(request.getPlateNumber())
-                        .checkInTime(request.getCheckInTime())
                         .message("Terdapat kesalahan sistem")
                         .build())
                 .build();

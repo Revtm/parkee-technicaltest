@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Service
 @Slf4j
@@ -21,8 +22,9 @@ public class CheckInServiceImpl implements CheckInService{
     }
 
     @Override
-    public CheckIn processCheckIn(String plateNumber, LocalDateTime checkInTime) {
+    public CheckIn processCheckIn(String plateNumber) {
         try {
+            LocalDateTime checkInTime = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
             Integer countParking = ticketRepository.countByPlateNumber(plateNumber);
 
             CheckIn checkIn = CheckIn.builder()
@@ -49,7 +51,6 @@ public class CheckInServiceImpl implements CheckInService{
             log.error("Error", e);
             CheckIn checkIn = CheckIn.builder()
                     .plateNumber(plateNumber)
-                    .checkInTime(checkInTime)
                     .processStatus("FAILED")
                     .message("Terdapat kesalahan sistem")
                     .build();

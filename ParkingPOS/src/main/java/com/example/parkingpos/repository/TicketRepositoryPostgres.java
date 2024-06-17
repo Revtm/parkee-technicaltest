@@ -28,14 +28,13 @@ public class TicketRepositoryPostgres implements TicketRepository {
 
     @Override
     public Integer submitTicket(CheckIn checkIn) {
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
         return jdbcTemplate.update(
                 "INSERT INTO TICKET (plate_number, check_in_time, parking_status, insert_time, update_time) VALUES (?, ?, ?, ?, ?)",
                 checkIn.getPlateNumber(),
                 checkIn.getCheckInTime(),
                 "PARKING",
-                now,
-                now);
+                checkIn.getCheckInTime(),
+                checkIn.getCheckInTime());
     }
 
     @Override
@@ -57,7 +56,7 @@ public class TicketRepositoryPostgres implements TicketRepository {
                     (rs, rowNum) -> {
                         CheckOut checkOut = CheckOut.builder()
                                 .plateNumber(rs.getString("plate_number"))
-                                .checkInTime(LocalDateTime.parse(rs.getString("check_in_time"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+                                .checkInTime((rs.getObject("check_in_time", LocalDateTime.class)))
                                 .parkingStatus(rs.getString("parking_status"))
                                 .build();
                         return checkOut;
@@ -70,7 +69,6 @@ public class TicketRepositoryPostgres implements TicketRepository {
 
     @Override
     public Integer updateTicketStatus(CheckOut checkOut) {
-        log.info(checkOut.toString());
         return jdbcTemplate.update(
                 "UPDATE TICKET SET parking_status = ? , check_out_time = ?, total_price = ? , update_time = ? " +
                         " WHERE plate_number = ? and parking_status = 'PARKING'",
@@ -84,12 +82,12 @@ public class TicketRepositoryPostgres implements TicketRepository {
     @Override
     public Integer updateTicketStatus(Payment payment) {
         try{
-            LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
+            LocalDateTime updateTime = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
             return jdbcTemplate.update(
                     "UPDATE TICKET SET parking_status = ? , update_time = ? " +
                             " WHERE plate_number = ? and parking_status = 'CHECKING_OUT'",
                     payment.getParkingStatus(),
-                    now,
+                    updateTime,
                     payment.getPlateNumber());
         }catch (EmptyResultDataAccessException e){
             log.error("Error", e);
