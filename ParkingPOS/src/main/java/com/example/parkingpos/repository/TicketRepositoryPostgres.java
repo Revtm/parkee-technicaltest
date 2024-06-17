@@ -70,9 +70,10 @@ public class TicketRepositoryPostgres implements TicketRepository {
 
     @Override
     public Integer updateTicketStatus(CheckOut checkOut) {
+        log.info(checkOut.toString());
         return jdbcTemplate.update(
                 "UPDATE TICKET SET parking_status = ? , check_out_time = ?, total_price = ? , update_time = ? " +
-                        "WHERE plate_number = ? and parking_status = 'PARKING'",
+                        " WHERE plate_number = ? and parking_status = 'PARKING'",
                 checkOut.getParkingStatus(),
                 checkOut.getCheckOutTime(),
                 checkOut.getTotalPrice(),
@@ -86,7 +87,7 @@ public class TicketRepositoryPostgres implements TicketRepository {
             LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
             return jdbcTemplate.update(
                     "UPDATE TICKET SET parking_status = ? , update_time = ? " +
-                            "WHERE plate_number = ? and parking_status = 'CHECKING_OUT'",
+                            " WHERE plate_number = ? and parking_status = 'CHECKING_OUT'",
                     payment.getParkingStatus(),
                     now,
                     payment.getPlateNumber());

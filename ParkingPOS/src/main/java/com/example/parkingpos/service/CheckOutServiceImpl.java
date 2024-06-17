@@ -22,19 +22,16 @@ public class CheckOutServiceImpl implements CheckOutService {
     }
 
     @Override
-    public CheckOut processCheckOut(String plateNumber, LocalDateTime now) {
+    public CheckOut processCheckOut(String plateNumber, LocalDateTime checkOutTime) {
         try{
             Integer countParking = repository.countByPlateNumber(plateNumber);
-
-            CheckOut checkOut = CheckOut.builder()
-                    .plateNumber(plateNumber)
-                    .checkOutTime(now)
-                    .build();
+            CheckOut checkOut = null;
 
             if(countParking > 0){
                 checkOut = repository.getTicketByPlateNumber(plateNumber);
+                checkOut.setCheckOutTime(checkOutTime);
 
-                Duration parkingDuration = Duration.between(checkOut.getCheckInTime(), now);
+                Duration parkingDuration = Duration.between(checkOut.getCheckInTime(), checkOutTime);
                 long parkingDurationHour = parkingDuration.toHours();
                 long totalPrice = (parkingDurationHour + 1) * 3000;
 
@@ -51,6 +48,9 @@ public class CheckOutServiceImpl implements CheckOutService {
                     checkOut.setMessage("Terdapat kesalahan sistem");
                 }
             }else{
+                checkOut = CheckOut.builder()
+                        .plateNumber(plateNumber)
+                        .build();
                 checkOut.setProcessStatus("CONFLICT");
                 checkOut.setMessage("Kendaraan belum melakukan check-in");
             }
@@ -60,7 +60,7 @@ public class CheckOutServiceImpl implements CheckOutService {
             log.error("Error", e);
             CheckOut checkOut = CheckOut.builder()
                     .plateNumber(plateNumber)
-                    .checkOutTime(now)
+                    .checkOutTime(checkOutTime)
                     .processStatus("FAILED")
                     .message("Gagal mendapatkan data ticket")
                     .build();
