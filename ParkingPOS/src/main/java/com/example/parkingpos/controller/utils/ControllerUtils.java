@@ -10,7 +10,7 @@ public class ControllerUtils {
         if("CONFLICT".equals(status)){
             httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
         }else if("SUCCESS".equals(status)){
-            httpStatus = HttpStatus.CREATED;
+            httpStatus = HttpStatus.OK;
         }else{
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }

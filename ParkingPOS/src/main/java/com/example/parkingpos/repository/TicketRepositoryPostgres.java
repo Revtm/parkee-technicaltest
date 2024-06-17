@@ -4,18 +4,19 @@ package com.example.parkingpos.repository;
 import com.example.parkingpos.entity.CheckIn;
 import com.example.parkingpos.entity.CheckOut;
 import com.example.parkingpos.entity.Ticket;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Repository
+@Slf4j
 public class TicketRepositoryPostgres implements TicketRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -48,18 +49,23 @@ public class TicketRepositoryPostgres implements TicketRepository {
 
     @Override
     public Ticket getTicketByPlateNumber(String plateNumber) {
-        return jdbcTemplate.queryForObject(
-                "SELECT * FROM TICKET " +
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM TICKET " +
                         "WHERE plate_number = ? " +
                         "AND parking_status = 'PARKING' LIMIT 1",
-                (rs, rowNum) -> {
-                    Ticket ticket = Ticket.builder()
-                            .plateNumber(rs.getString("plate_number"))
-                            .checkInTime(LocalDateTime.parse(rs.getString("check_in_time"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))
-                            .parkingStatus(rs.getString("parking_status"))
-                            .build();
-                    return ticket;
-                }, plateNumber);
+                    (rs, rowNum) -> {
+                        Ticket ticket = Ticket.builder()
+                                .plateNumber(rs.getString("plate_number"))
+                                .checkInTime(LocalDateTime.parse(rs.getString("check_in_time"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")))
+                                .parkingStatus(rs.getString("parking_status"))
+                                .build();
+                        return ticket;
+                    }, plateNumber);
+        }catch (EmptyResultDataAccessException e){
+            log.error("Error", e);
+            return null;
+        }
     }
 
     @Override

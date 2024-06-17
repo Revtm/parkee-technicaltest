@@ -24,29 +24,38 @@ public class CheckOutServiceImpl implements CheckOutService{
     @Override
     public CheckOut processCheckOut(String plateNumber, LocalDateTime checkOutTime) {
         try {
-            Ticket ticket = repository.getTicketByPlateNumber(plateNumber);
-
-            Duration parkingDuration = Duration.between(ticket.getCheckInTime(), checkOutTime);
-            long parkingDurationHour = parkingDuration.toHours();
-            long totalPrice = (parkingDurationHour + 1) * 3000;
+            Integer countParking = repository.countByPlateNumber(plateNumber);
 
             CheckOut checkOut = CheckOut.builder()
                     .plateNumber(plateNumber)
-                    .checkInTime(ticket.getCheckInTime())
                     .checkOutTime(checkOutTime)
-                    .parkingStatus("FINISHED")
-                    .totalPrice(BigInteger.valueOf(totalPrice))
                     .build();
 
-            Integer row = repository.updateTicketStatus(checkOut);
+            if(countParking > 0){
+                Ticket ticket = repository.getTicketByPlateNumber(plateNumber);
 
-            if(row > 0){
-                checkOut.setProcessStatus("SUCCESS");
-                checkOut.setMessage("Berhasil check-out");
+                Duration parkingDuration = Duration.between(ticket.getCheckInTime(), checkOutTime);
+                long parkingDurationHour = parkingDuration.toHours();
+                long totalPrice = (parkingDurationHour + 1) * 3000;
+
+                checkOut.setCheckInTime(ticket.getCheckInTime());
+                checkOut.setParkingStatus("FINISHED");
+                checkOut.setTotalPrice(BigInteger.valueOf(totalPrice));
+
+                Integer row = repository.updateTicketStatus(checkOut);
+
+                if(row > 0){
+                    checkOut.setProcessStatus("SUCCESS");
+                    checkOut.setMessage("Berhasil check-out");
+                }else{
+                    checkOut.setProcessStatus("FAILED");
+                    checkOut.setMessage("Terdapat kesalahan sistem");
+                }
             }else{
-                checkOut.setProcessStatus("FAILED");
-                checkOut.setMessage("Terdapat kesalahan sistem");
+                checkOut.setProcessStatus("CONFLICT");
+                checkOut.setMessage("Kendaraan belum melakukan check-in");
             }
+
 
             return checkOut;
         }catch (Exception e){

@@ -26,16 +26,25 @@ public class TicketServiceImpl implements TicketService{
         try{
             Ticket ticket = repository.getTicketByPlateNumber(plateNumber);
 
-            Duration parkingDuration = Duration.between(ticket.getCheckInTime(), now);
-            long parkingDurationHour = parkingDuration.toHours();
-            long totalPrice = (parkingDurationHour + 1) * 3000;
+            if(ticket != null){
+                Duration parkingDuration = Duration.between(ticket.getCheckInTime(), now);
+                long parkingDurationHour = parkingDuration.toHours();
+                long totalPrice = (parkingDurationHour + 1) * 3000;
 
-            ticket.setCheckOutTime(now);
-            ticket.setTotalPrice(BigInteger.valueOf(totalPrice));
-            ticket.setProcessStatus("SUCCESS");
-            ticket.setMessage("Berhasil mendapatkan data ticket");
+                ticket.setCheckOutTime(now);
+                ticket.setTotalPrice(BigInteger.valueOf(totalPrice));
+                ticket.setProcessStatus("SUCCESS");
+                ticket.setMessage("Berhasil mendapatkan data ticket");
 
-            return ticket;
+                return ticket;
+            } else {
+                return Ticket.builder()
+                        .processStatus("FAILED")
+                        .plateNumber(plateNumber)
+                        .checkOutTime(now)
+                        .message("Kendaraan belum melakukan check-in")
+                        .build();
+            }
         }catch (Exception e){
             log.error("Error", e);
             Ticket ticket = Ticket.builder()
