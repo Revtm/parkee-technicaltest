@@ -38,11 +38,20 @@ public class TicketRepositoryPostgres implements TicketRepository {
     }
 
     @Override
-    public Integer countByPlateNumber(String plateNumber) {
+    public Integer countParking(String plateNumber) {
         return jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM TICKET " +
                         "WHERE plate_number = ? " +
                         "AND parking_status = 'PARKING'",
+                Integer.class, plateNumber);
+    }
+
+    @Override
+    public Integer countParkingAndCheckingOut(String plateNumber) {
+        return jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM TICKET " +
+                        "WHERE plate_number = ? " +
+                        "AND parking_status = 'PARKING' OR parking_status = 'CHECKING_OUT'",
                 Integer.class, plateNumber);
     }
 
@@ -52,7 +61,7 @@ public class TicketRepositoryPostgres implements TicketRepository {
             return jdbcTemplate.queryForObject(
                     "SELECT * FROM TICKET " +
                         "WHERE plate_number = ? " +
-                        "AND parking_status = 'PARKING' LIMIT 1",
+                        "AND parking_status = 'PARKING' OR parking_status = 'CHECKING_OUT' LIMIT 1",
                     (rs, rowNum) -> {
                         CheckOut checkOut = CheckOut.builder()
                                 .plateNumber(rs.getString("plate_number"))

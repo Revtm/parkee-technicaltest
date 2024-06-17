@@ -26,7 +26,7 @@ public class CheckOutServiceImpl implements CheckOutService {
     public CheckOut processCheckOut(String plateNumber) {
         try{
             LocalDateTime checkOutTime = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
-            Integer countParking = repository.countByPlateNumber(plateNumber);
+            Integer countParking = repository.countParkingAndCheckingOut(plateNumber);
             CheckOut checkOut = null;
 
             if(countParking > 0){
@@ -42,19 +42,14 @@ public class CheckOutServiceImpl implements CheckOutService {
 
                 Integer row = repository.updateTicketStatus(checkOut);
 
-                if(row > 0){
-                    checkOut.setProcessStatus("SUCCESS");
-                    checkOut.setMessage("Silakan lakukan pembayaran");
-                }else{
-                    checkOut.setProcessStatus("FAILED");
-                    checkOut.setMessage("Terdapat kesalahan sistem");
-                }
+                checkOut.setProcessStatus("SUCCESS");
+                checkOut.setMessage("Silakan lakukan pembayaran");
             }else{
                 checkOut = CheckOut.builder()
                         .plateNumber(plateNumber)
+                        .processStatus("CONFLICT")
+                        .message("Kendaraan belum melakukan check-in")
                         .build();
-                checkOut.setProcessStatus("CONFLICT");
-                checkOut.setMessage("Kendaraan belum melakukan check-in");
             }
 
             return checkOut;

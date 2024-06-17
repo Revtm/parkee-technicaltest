@@ -25,7 +25,7 @@ public class CheckInServiceImpl implements CheckInService{
     public CheckIn processCheckIn(String plateNumber) {
         try {
             LocalDateTime checkInTime = LocalDateTime.now(ZoneId.of("Asia/Jakarta"));
-            Integer countParking = ticketRepository.countByPlateNumber(plateNumber);
+            Integer countParking = ticketRepository.countParkingAndCheckingOut(plateNumber);
 
             CheckIn checkIn = CheckIn.builder()
                     .plateNumber(plateNumber)

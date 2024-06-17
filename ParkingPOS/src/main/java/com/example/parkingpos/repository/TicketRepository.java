@@ -6,7 +6,8 @@ import com.example.parkingpos.entity.Payment;
 
 public interface TicketRepository {
     Integer submitTicket(CheckIn checkIn);
-    Integer countByPlateNumber(String plateNumber);
+    Integer countParking(String plateNumber);
+    Integer countParkingAndCheckingOut(String plateNumber);
     CheckOut getTicketByPlateNumber(String plateNumber);
     Integer updateTicketStatus(CheckOut checkOut);
     Integer updateTicketStatus(Payment payment);
