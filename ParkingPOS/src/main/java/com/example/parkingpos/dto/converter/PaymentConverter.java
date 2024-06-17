@@ -18,12 +18,12 @@ public class PaymentConverter {
                 .build();
     }
 
-    public PaymentResponseDto requestToFailedPaymentResponseDto(PaymentRequestDto request){
+    public PaymentResponseDto requestToFailedPaymentResponseDto(PaymentRequestDto request, String message){
         return PaymentResponseDto.builder()
                 .status("FAILED")
                 .data(PaymentDataResponseDto.builder()
                         .plateNumber(request.getPlateNumber())
-                        .message("Terdapat kesalahan sistem")
+                        .message(message)
                         .build())
                 .build();
     }

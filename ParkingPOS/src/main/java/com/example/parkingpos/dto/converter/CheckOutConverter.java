@@ -22,12 +22,12 @@ public class CheckOutConverter {
                 .build();
     }
 
-    public CheckOutResponseDto checkOutToFailedCheckOutResponseDto(CheckOutRequestDto request){
+    public CheckOutResponseDto checkOutToFailedCheckOutResponseDto(CheckOutRequestDto request, String message){
         return CheckOutResponseDto.builder()
                 .status("FAILED")
                 .data(CheckOutDataResponseDto.builder()
                         .plateNumber(request.getPlateNumber())
-                        .message("Gagal mendapatkan data ticket")
+                        .message(message)
                         .build())
                 .build();
     }

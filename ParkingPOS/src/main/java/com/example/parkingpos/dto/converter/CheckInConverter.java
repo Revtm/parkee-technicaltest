@@ -19,12 +19,12 @@ public class CheckInConverter {
                 .build();
     }
 
-    public CheckInResponseDto requestToFailedCheckInResponseDto(CheckInRequestDto request){
+    public CheckInResponseDto requestToFailedCheckInResponseDto(CheckInRequestDto request, String message){
         return CheckInResponseDto.builder()
                 .status("FAILED")
                 .data(CheckInDataResponseDto.builder()
                         .plateNumber(request.getPlateNumber())
-                        .message("Terdapat kesalahan sistem")
+                        .message(message)
                         .build())
                 .build();
     }

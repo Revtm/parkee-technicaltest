@@ -6,11 +6,14 @@ import com.example.parkingpos.dto.checkout.CheckOutResponseDto;
 import com.example.parkingpos.dto.converter.CheckOutConverter;
 import com.example.parkingpos.entity.CheckOut;
 import com.example.parkingpos.service.CheckOutService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,16 +34,29 @@ public class CheckOutController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<CheckOutResponseDto> submitCheckOutTicket(@RequestBody CheckOutRequestDto request){
+    public ResponseEntity<CheckOutResponseDto> submitCheckOutTicket(@Valid @RequestBody CheckOutRequestDto request, BindingResult bindingResult){
         try {
+            if(bindingResult.hasErrors()){
+                StringBuilder builder = new StringBuilder();
+                for (ObjectError err : bindingResult.getAllErrors()){
+                    builder.append(err.getDefaultMessage());
+                    builder.append(",");
+                }
+                throw new IllegalArgumentException(builder.toString());
+            }
+
             CheckOut checkOut = checkOutService.processCheckOut(request.getPlateNumber());
             CheckOutResponseDto response = checkOutConverter.checkOutToCheckOutResponseDto(checkOut);
 
             HttpStatus httpStatus = controllerUtils.mappingHttpStatus(checkOut.getProcessStatus());
             return new ResponseEntity<>(response, httpStatus);
-        }catch (Exception e){
+        } catch (IllegalArgumentException e){
             log.error("Error", e);
-            CheckOutResponseDto response = checkOutConverter.checkOutToFailedCheckOutResponseDto(request);
+            CheckOutResponseDto response = checkOutConverter.checkOutToFailedCheckOutResponseDto(request, e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (Exception e){
+            log.error("Error", e);
+            CheckOutResponseDto response = checkOutConverter.checkOutToFailedCheckOutResponseDto(request,"Gagal mendapatkan data ticket");
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
