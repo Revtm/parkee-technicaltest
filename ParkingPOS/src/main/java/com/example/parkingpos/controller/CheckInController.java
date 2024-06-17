@@ -31,7 +31,7 @@ public class CheckInController {
     }
 
     @PostMapping("/checkin")
-    public ResponseEntity<CheckInResponseDto> createCheckInTicket(@RequestBody CheckInRequestDto request){
+    public ResponseEntity<CheckInResponseDto> submitCheckInTicket(@RequestBody CheckInRequestDto request){
         try{
             CheckIn checkIn = checkInService.processCheckIn(request.getPlateNumber(), request.getCheckInTime());
 

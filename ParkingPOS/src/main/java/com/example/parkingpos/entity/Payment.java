@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Ticket {
+public class Payment {
     private String plateNumber;
     private LocalDateTime checkInTime;
     private LocalDateTime checkOutTime;

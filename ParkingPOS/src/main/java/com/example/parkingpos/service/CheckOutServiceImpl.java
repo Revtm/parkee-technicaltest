@@ -1,7 +1,6 @@
 package com.example.parkingpos.service;
 
 import com.example.parkingpos.entity.CheckOut;
-import com.example.parkingpos.entity.Ticket;
 import com.example.parkingpos.repository.TicketRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,8 @@ import java.time.LocalDateTime;
 
 @Service
 @Slf4j
-public class CheckOutServiceImpl implements CheckOutService{
+public class CheckOutServiceImpl implements CheckOutService {
+
     private final TicketRepository repository;
 
     @Autowired
@@ -22,31 +22,30 @@ public class CheckOutServiceImpl implements CheckOutService{
     }
 
     @Override
-    public CheckOut processCheckOut(String plateNumber, LocalDateTime checkOutTime) {
-        try {
+    public CheckOut processCheckOut(String plateNumber, LocalDateTime now) {
+        try{
             Integer countParking = repository.countByPlateNumber(plateNumber);
 
             CheckOut checkOut = CheckOut.builder()
                     .plateNumber(plateNumber)
-                    .checkOutTime(checkOutTime)
+                    .checkOutTime(now)
                     .build();
 
             if(countParking > 0){
-                Ticket ticket = repository.getTicketByPlateNumber(plateNumber);
+                checkOut = repository.getTicketByPlateNumber(plateNumber);
 
-                Duration parkingDuration = Duration.between(ticket.getCheckInTime(), checkOutTime);
+                Duration parkingDuration = Duration.between(checkOut.getCheckInTime(), now);
                 long parkingDurationHour = parkingDuration.toHours();
                 long totalPrice = (parkingDurationHour + 1) * 3000;
 
-                checkOut.setCheckInTime(ticket.getCheckInTime());
-                checkOut.setParkingStatus("FINISHED");
+                checkOut.setParkingStatus("CHECKING_OUT");
                 checkOut.setTotalPrice(BigInteger.valueOf(totalPrice));
 
                 Integer row = repository.updateTicketStatus(checkOut);
 
                 if(row > 0){
                     checkOut.setProcessStatus("SUCCESS");
-                    checkOut.setMessage("Berhasil check-out");
+                    checkOut.setMessage("Silakan lakukan pembayaran");
                 }else{
                     checkOut.setProcessStatus("FAILED");
                     checkOut.setMessage("Terdapat kesalahan sistem");
@@ -56,18 +55,17 @@ public class CheckOutServiceImpl implements CheckOutService{
                 checkOut.setMessage("Kendaraan belum melakukan check-in");
             }
 
-
             return checkOut;
         }catch (Exception e){
             log.error("Error", e);
             CheckOut checkOut = CheckOut.builder()
                     .plateNumber(plateNumber)
-                    .checkOutTime(checkOutTime)
+                    .checkOutTime(now)
                     .processStatus("FAILED")
-                    .message("Terdapat kesalahan sistem")
+                    .message("Gagal mendapatkan data ticket")
                     .build();
+
             return checkOut;
         }
     }
-
 }

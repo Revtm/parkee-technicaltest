@@ -1,31 +1,26 @@
 package com.example.parkingpos.dto.converter;
 
 import com.example.parkingpos.dto.*;
-import com.example.parkingpos.entity.CheckOut;
+import com.example.parkingpos.entity.Payment;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CheckOutConverter {
-    public CheckOutResponseDto checkOutToCheckOutResponseDto(CheckOut checkOut){
-        return CheckOutResponseDto.builder()
-                .status(checkOut.getProcessStatus())
-                .data(CheckOutDataResponseDto.builder()
-                        .plateNumber(checkOut.getPlateNumber())
-                        .checkInTime(checkOut.getCheckInTime())
-                        .checkOutTime(checkOut.getCheckOutTime())
-                        .parkingStatus(checkOut.getParkingStatus())
-                        .totalPrice(checkOut.getTotalPrice())
-                        .message(checkOut.getMessage())
+    public PaymentResponseDto checkOutToCheckOutResponseDto(Payment payment){
+        return PaymentResponseDto.builder()
+                .status(payment.getProcessStatus())
+                .data(PaymentDataResponseDto.builder()
+                        .plateNumber(payment.getPlateNumber())
+                        .message(payment.getMessage())
                         .build())
                 .build();
     }
 
-    public CheckOutResponseDto requestToFailedCheckOutResponseDto(CheckOutRequestDto request){
-        return CheckOutResponseDto.builder()
+    public PaymentResponseDto requestToFailedCheckOutResponseDto(PaymentRequestDto request){
+        return PaymentResponseDto.builder()
                 .status("FAILED")
-                .data(CheckOutDataResponseDto.builder()
+                .data(PaymentDataResponseDto.builder()
                         .plateNumber(request.getPlateNumber())
-                        .checkOutTime(request.getCheckOutTime())
                         .message("Terdapat kesalahan sistem")
                         .build())
                 .build();

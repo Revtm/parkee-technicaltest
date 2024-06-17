@@ -1,5 +1,6 @@
 package com.example.parkingpos.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketResponseDto {
-    private String status;
-    private TicketDataResponseDto data;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class PaymentDataResponseDto {
+    private String plateNumber;
+    private String message;
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckOutResponseDto{
+public class CheckOutResponseDto {
     private String status;
     private CheckOutDataResponseDto data;
 }
