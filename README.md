@@ -64,7 +64,7 @@ Saat dikembbangkan menggunakan spesifikasi sebagai berikut:
 #### Cara Menjalankan Program
 ##### Migrasi Database
 Project sudah terintegrasi dengan flyway, dan akan melakukan auto migration saat program ParkingPOS pertama dijalankan
-1. Install database postgresql
+1. Install database postgresql (https://www.postgresql.org/download/)
 2. Buat database baru bernama ``parking-pos``
 3. Run project ParkingPOS melalui IDE atau command line
 
