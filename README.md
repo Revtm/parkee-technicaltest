@@ -13,8 +13,8 @@ Muhammad Iqbal Revantama
 
 ## Linux Task
 ### Find By File Extension
-Masuk ke folder LinuxTask dan berikan izin file untuk execution dengan command  ``chmod +x searchfile.sh``.
-Untuk mencari file berdasarkan extensi dapat menggunakan command ``./searchfile.sh namafolder namaextensi`` (extensi cukup nama tanpa titik)
+1. ``chmod +x searchfile.sh``.
+2. ``./searchfile.sh namafolder namaekstensi`` (ekstensi cukup nama tanpa titik)
 
 contoh: ``./searchfile.sh file txt``
 
