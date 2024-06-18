@@ -21,8 +21,12 @@ contoh: ``./searchfile.sh file txt``
 <img width="497" alt="image" src="https://github.com/Revtm/parkee-technicaltest/assets/39016040/c98961e2-4e83-43a2-a4da-ca6a1d9b188d">
 
 ### Update Package Automation
-
+1. ``chmod +x autoupgrade.sh``.
+2. ``./autoupgrade.sh Ubuntu`` atau ``./autoupgrade.sh CentOS``
+   
 ### SSH Key
+1. ``chmod +x autosshkeygen.sh``.
+2. ``./autosshkeygen.sh testfolder``
 
 ## Task Build Application
 Aplikasi ini terbagi menjadi dua yaitu sisi backend dan frontend. Backend dikembangkan dengan Java Spring Boot dan frontend dikembangkan dengan framework Next.js. Seluruh file project terdapat di folder ``BuildApplicationTask``
