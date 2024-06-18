@@ -6,6 +6,8 @@ import com.example.parkingpos.dto.checkin.CheckInResponseDto;
 import com.example.parkingpos.entity.CheckIn;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class CheckInConverter {
     public CheckInResponseDto checkInToCheckInResponseDto(CheckIn checkIn){
@@ -13,7 +15,7 @@ public class CheckInConverter {
                 .status(checkIn.getProcessStatus())
                 .data(CheckInDataResponseDto.builder()
                         .plateNumber(checkIn.getPlateNumber())
-                        .checkInTime(checkIn.getCheckInTime())
+                        .checkInTime(checkIn.getCheckInTime().format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss")))
                         .message(checkIn.getMessage())
                         .build())
                 .build();

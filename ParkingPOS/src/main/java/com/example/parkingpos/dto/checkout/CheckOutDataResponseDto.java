@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CheckOutDataResponseDto {
     private String plateNumber;
-    private LocalDateTime checkInTime;
-    private LocalDateTime checkOutTime;
+    private String checkInTime;
+    private String checkOutTime;
     private BigInteger totalPrice;
     private String parkingStatus;
     private String message;

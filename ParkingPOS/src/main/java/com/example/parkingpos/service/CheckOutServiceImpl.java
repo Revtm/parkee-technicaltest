@@ -34,8 +34,18 @@ public class CheckOutServiceImpl implements CheckOutService {
                 checkOut.setCheckOutTime(checkOutTime);
 
                 Duration parkingDuration = Duration.between(checkOut.getCheckInTime(), checkOutTime);
-                long parkingDurationHour = parkingDuration.toHours();
-                long totalPrice = (parkingDurationHour + 1) * 3000;
+                long parkingDurationSeconds = parkingDuration.toSeconds();
+                long parkingDurationHour = parkingDurationSeconds / 3600L;
+                long modSeconds = parkingDurationSeconds % 3600L;
+                long parkingDurationMinutes = modSeconds / 60L;
+                long modSecondsFromMinutes = modSeconds % 60L;
+
+                long finalDuration = parkingDurationHour;
+                if(parkingDurationMinutes > 0 || modSecondsFromMinutes > 0){
+                    finalDuration = finalDuration + 1L;
+                }
+
+                long totalPrice = finalDuration * 3000;
 
                 checkOut.setParkingStatus("CHECKING_OUT");
                 checkOut.setTotalPrice(BigInteger.valueOf(totalPrice));
