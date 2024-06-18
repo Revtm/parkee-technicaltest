@@ -38,13 +38,20 @@ Saat dikembangkan menggunakan spesifikasi sebagai berikut:
 #### Cara Menjalankan Program
 1. Download (https://nodejs.org/en) dan Install Node bila belum tersedia (Npm sudah included dengan Node.js installation)
 2. Masuk ke folder ``/parking-pos-dashboard``
-3. Buat file .env.development bila belum ada dan masukkan konfigurasi seperti berikut dan kemudian simpan:
-   ```code
-   NODE_ENV=development
-   API_BASE_URL=http://localhost:8080
-   ```
-4. Jalankan command ``nmp run dev``, secara otomatis akan menjalankan aplikasi pada localhost port :3000
-5. Aplikasi dapat digunakan setelah program backend telah dijalankan
+3. Jalankan command ``npm install``
+4. Jalankan command ``npm run dev``, secara otomatis akan menjalankan aplikasi pada localhost port :3000
+5. Aplikasi dapat digunakan setelah program backend telah dijalankan di port :8080
+
+#### Preview
+##### Check-In Page ``localhost:3000/checkin``
+
+<img width="500" alt="image" src="https://github.com/Revtm/parkee-technicaltest/assets/39016040/30cb0837-eecc-456e-b5a9-6b4f63747b29">
+
+##### Check-Out Page ``localhost:3000/checkout``
+
+<img width="500" alt="image" src="https://github.com/Revtm/parkee-technicaltest/assets/39016040/7397d8b9-d189-48cd-97c6-3c6503249861">
+
+
 
 ### Back-End
 Saat dikembbangkan menggunakan spesifikasi sebagai berikut:
