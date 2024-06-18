@@ -25,7 +25,7 @@ contoh: ``./searchfile.sh file txt``
 ### SSH Key
 
 ## Task Build Application
-Aplikasi ini terbagi menjadi dua yaitu sisi backend dan frontend. Backend dikembangkan dengan Java Spring Boot dan frontend dikembangkan dengan framework Next.js
+Aplikasi ini terbagi menjadi dua yaitu sisi backend dan frontend. Backend dikembangkan dengan Java Spring Boot dan frontend dikembangkan dengan framework Next.js. Seluruh file project terdapat di folder ``BuildApplicationTask``
 
 ### Front-End
 Saat dikembangkan menggunakan spesifikasi sebagai berikut:
