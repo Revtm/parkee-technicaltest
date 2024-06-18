@@ -94,3 +94,65 @@ Melalui IDE Intellij
 4. Build dan Run project
 5. Spring boot application akan berjalan di localhost port 8080
   
+##### API docs
+<b>Check-In</b>
+```code
+curl --location 'http://localhost:8080/pos/checkin' \
+--header 'Content-Type: application/json' \
+--data '{
+    "plateNumber":"B1067NBF"
+}'
+```
+Response
+```
+{
+    "status": "SUCCESS",
+    "data": {
+        "plateNumber": "B1067NBF",
+        "checkInTime": "18 Jun 2024 11:21:01",
+        "message": "Berhasil check-in"
+    }
+}
+```
+
+<b>Check-Out</b>
+```code
+curl --location 'http://localhost:8080/pos/checkout' \
+--header 'Content-Type: application/json' \
+--data '{
+    "plateNumber":"B1067NBF"
+}'
+```
+Response
+```
+{
+    "status": "SUCCESS",
+    "data": {
+        "plateNumber": "B1067NBF",
+        "checkInTime": "18 Jun 2024 11:21:01",
+        "checkOutTime": "18 Jun 2024 11:23:21",
+        "totalPrice": 3000,
+        "parkingStatus": "CHECKING_OUT",
+        "message": "Silakan lakukan pembayaran"
+    }
+}
+```
+
+<b>Payment (Dummy, action Submit as Finished)</b>
+```code
+curl --location 'http://localhost:8080/pos/payment' \
+--header 'Content-Type: application/json' \
+--data '{
+    "plateNumber":"B1067NBF"
+}'
+```
+Response
+```
+{
+    "status": "SUCCESS",
+    "data": {
+        "plateNumber": "B1067NBF",
+        "message": "Pembayaran Berhasil"
+    }
+}
+```
